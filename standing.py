@@ -26,5 +26,5 @@ def show_leading_team(teams, matches):
         print("There are no matches yet")
         return
     
-    print(f"the best team is: {max(teams)[0]["name"]}")
+    print(f"the best team is: {sort_teams(teams)[0]["name"]}")
 
