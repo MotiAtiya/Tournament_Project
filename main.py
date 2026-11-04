@@ -1,7 +1,7 @@
 from menu import get_action
 from teams_manager import add_team, show_all_teams
 from matches_manager import add_match_result
-from standing import show_standing, show_leading_team, show_best_attacking_team, show_team_success_rate, show_teams_without_wins
+from standing import show_standing, show_leading_team, show_best_attacking_team, show_team_success_rate, show_teams_without_wins, show_tournament_summary
 
 def main():
     teams = []
@@ -49,6 +49,10 @@ def main():
 
         if action == 8:
             show_teams_without_wins(teams)
+
+        if action == 9:
+            show_tournament_summary(teams, matches)
+
 
 if __name__ == "__main__":
     main()

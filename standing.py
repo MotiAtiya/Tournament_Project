@@ -4,7 +4,7 @@ t = PrettyTable(['Name', 'Games', 'Wins', 'Draws', 'Losses', 'Goals For', 'Goals
 
 def sort_teams(teams):
     return sorted(teams, 
-                key=lambda t: (t["points"], t["goals_for"] - t["goals_against"], t["goals_for"], t["name"]), 
+                key=lambda t: (t["points"], t["goals_for"] - t["goals_against"], t["goals_for"], t["name"]),
                 reverse=True)
 
 
@@ -28,7 +28,6 @@ def show_leading_team(teams, matches):
     
     print(f"the best team is: {sort_teams(teams)[0]["name"]}")
 
-
 def show_best_attacking_team(teams):
     max_goals_for_team = max(teams, key=lambda t: t["goals_for"])
     max_goals_for_value = max_goals_for_team["goals_for"]
@@ -50,5 +49,29 @@ def show_teams_without_wins(teams):
     if not teams_without_wins:
         print("There are no teams without wins!")
     else:
+        print("team without wins:")
         for t in teams_without_wins:
-            print(f"team without wins: {t["name"]}")
+            print(f"{t["name"]}: played {t["played"]} matches, earned {t["points"]} points")
+
+
+def show_tournament_summary(teams, matches):
+    if not matches:
+        print("no matches yet")
+        return
+
+    num_of_teams = len(teams)
+    num_of_matches = len(matches)
+    total_goals = sum(team["goals_for"] for team in teams)
+    average_goals_per_match = total_goals / num_of_matches
+    num_of_draws = round(sum(team["draws"] for team in teams) / 2)
+
+    
+    print("========== TOURNAMENT SUMMARY ==========")
+    print(num_of_teams, "teams")
+    print(num_of_matches, "matches")
+    print(total_goals, "goals in total")
+    print(average_goals_per_match, "average goals per match")
+    print(num_of_draws, "matches ended in a draw")
+    print(sort_teams(teams)[0]["name"], "is the best team")
+    
+
