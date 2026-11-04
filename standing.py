@@ -42,4 +42,13 @@ def show_team_success_rate(teams):
     if team["played"] == 0:
         print("no games")
     else:
-        print(f"Team Success Rate: {team["points"] / (team["played"] * 3) * 100}")
+        rate = round(team["points"] / (team["played"] * 3) * 100, 2)
+        print("Team Success Rate:", rate)
+
+def show_teams_without_wins(teams):
+    teams_without_wins = list(filter(lambda t: (t["played"] > 0 and t["wins"] == 0), teams))
+    if not teams_without_wins:
+        print("There are no teams without wins!")
+    else:
+        for t in teams_without_wins:
+            print(f"team without wins: {t["name"]}")
