@@ -1,6 +1,7 @@
-from inputs import input_positive_integer
+from printer import print_title
 import validation as v
 from teams_manager import update_teams, input_exists_team_id
+from inputs import input_positive_integer, input_not_negative_integer
 
 def input_home_and_away_teams_id(teams, matches):
     while True:
@@ -20,17 +21,7 @@ def have_played_before(matches, home_team_id, away_team_id):
             return True
     return False
 
-def input_team_goals(team_kind):
-    while True:
-        try:
-            goals = int(input(f"Enter the numbers of goals for {team_kind} team: ").strip())
-            if v.is_not_negative_integer_number(goals):
-                return goals
-            print("Please enter only a not negative integer number!") 
-        except ValueError:
-            print("Please enter only a number!")
-
-def create_match(mathces, home_id, away_id, home_goals, away_goals):
+def create_match(home_id, away_id, home_goals, away_goals):
     return {
         "home_team_id": home_id,
         "away_team_id": away_id,
@@ -39,16 +30,17 @@ def create_match(mathces, home_id, away_id, home_goals, away_goals):
     }
 
 def add_match_result(teams, matches):
+    print_title("ADD MATCH RESULT")
     while True:
         home_team_id, away_team_id = input_home_and_away_teams_id(teams, matches)
         if have_played_before(matches, home_team_id, away_team_id):
             print("These teams already played before. Please enter new teams")
         break
 
-    home_team_goals = input_team_goals("home")
-    away_team_goals = input_team_goals("away")
+    home_team_goals = input_not_negative_integer(f"Enter the numbers of goals for home team: ")
+    away_team_goals = input_not_negative_integer(f"Enter the numbers of goals for away team: ")
 
-    new_match = create_match(matches, home_team_id, away_team_id, home_team_goals, away_team_goals)
+    new_match = create_match(home_team_id, away_team_id, home_team_goals, away_team_goals)
     matches.append(new_match)
     update_teams(teams, new_match)
 

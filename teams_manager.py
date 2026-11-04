@@ -1,5 +1,6 @@
 import validation as v
 from inputs import input_positive_integer, input_not_empty_string
+from printer import print_title, print_team_detail, print_no_teams_yet
 
 def input_new_team_id(teams):
     while True:
@@ -8,12 +9,14 @@ def input_new_team_id(teams):
             return id
         print("id already exists. Please enter new id!")
 
+
 def input_new_team_name(teams):
     while True:
         name = input_not_empty_string("Enter new team name: ").lower()
         if name not in map(lambda t: t["name"], teams):
             return name
         print("name already exists. Please enter new name!")
+
 
 def input_exists_team_id(input_msg, teams):
     while True:
@@ -22,8 +25,10 @@ def input_exists_team_id(input_msg, teams):
             return id
         print("id is not exists. Please try again")
 
+
 def get_team_by_id(id, teams):
     return list(filter(lambda t: t["id"] == id, teams))[0]
+
 
 def initialize_team(id, name):
     return {
@@ -38,7 +43,9 @@ def initialize_team(id, name):
         "points": 0
     }
 
+
 def add_team(teams):
+    print_title("ADD TEAM")
     id = input_new_team_id(teams)
     name = input_new_team_name(teams)
     teams.append(initialize_team(id, name))
@@ -46,11 +53,11 @@ def add_team(teams):
 
 def show_all_teams(teams):
     if not teams:
-        print("There are no teams yet")
+        print_no_teams_yet()
 
-    print()
+    print_title("SHOW ALL TEAMS")
     for t in teams:
-        print(f"{t["id"]}. {t["name"]:<5} {t["played"]} games, {t["points"]} points")
+        print_team_detail(t)
 
 
 def update_teams(teams, match):
