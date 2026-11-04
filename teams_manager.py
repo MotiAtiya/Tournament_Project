@@ -1,11 +1,12 @@
 from inputs import input_positive_integer, input_not_empty_string
 from printer import print_title, print_team_detail, print_no_teams_yet
 import logging
+from io_manager import dump_data, load_data, TEAMS_PATH
 
 def input_new_team_id(teams):
     while True:
         id = input_positive_integer("Enter new team id: ")
-        if id not in map(lambda t: t["id"], teams):
+        if not teams or id not in map(lambda t: t["id"], teams):
             logging.info(f"New ID number ({id}) successfully recorded")
             return id
         print("id already exists. Please enter new id!")
@@ -15,7 +16,7 @@ def input_new_team_id(teams):
 def input_new_team_name(teams):
     while True:
         name = input_not_empty_string("Enter new team name: ").lower()
-        if name not in map(lambda t: t["name"], teams):
+        if not teams or name not in map(lambda t: t["name"], teams):
             logging.info(f"New name team ({name}) successfully recorded")
             return name
         print("name already exists. Please enter new name!")
@@ -49,17 +50,23 @@ def initialize_team(id, name):
     }
 
 
-def add_team(teams):
+def add_team():
+    teams = load_data(TEAMS_PATH)
     print_title("ADD TEAM")
     id = input_new_team_id(teams)
     name = input_new_team_name(teams)
+    if not teams:
+        teams = []
     teams.append(initialize_team(id, name))
+    dump_data(TEAMS_PATH, teams)
     logging.info(f"{name} team has been successfully added")
 
 
-def show_all_teams(teams):
+def show_all_teams():
+    teams = load_data(TEAMS_PATH)
     if not teams:
         print_no_teams_yet()
+        return
 
     print_title("SHOW ALL TEAMS")
     for t in teams:
@@ -91,3 +98,5 @@ def update_teams(teams, match):
         home_team["losses"] += 1
         away_team["wins"] += 1
         away_team["points"] += 3
+
+    dump_data(TEAMS_PATH, teams)

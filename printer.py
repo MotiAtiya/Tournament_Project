@@ -8,4 +8,4 @@ def print_no_teams_yet():
     print("There are no teams yet")
 
 def print_no_matches_yet():
-    print("There ar no matches yet")
+    print("There are no matches yet")

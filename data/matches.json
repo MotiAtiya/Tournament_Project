@@ -1,0 +1,38 @@
+[
+  {
+    "home_team_id": 4,
+    "away_team_id": 5,
+    "home_goals": 2,
+    "away_goals": 0
+  },
+  {
+    "home_team_id": 1,
+    "away_team_id": 2,
+    "home_goals": 3,
+    "away_goals": 2
+  },
+  {
+    "home_team_id": 1,
+    "away_team_id": 3,
+    "home_goals": 2,
+    "away_goals": 4
+  },
+  {
+    "home_team_id": 2,
+    "away_team_id": 3,
+    "home_goals": 4,
+    "away_goals": 1
+  },
+  {
+    "home_team_id": 2,
+    "away_team_id": 4,
+    "home_goals": 0,
+    "away_goals": 1
+  },
+  {
+    "home_team_id": 3,
+    "away_team_id": 4,
+    "home_goals": 1,
+    "away_goals": 1
+  }
+]

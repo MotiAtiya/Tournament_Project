@@ -2,6 +2,7 @@ from printer import print_title
 from teams_manager import update_teams, input_exists_team_id
 from inputs import input_not_negative_integer
 import logging
+from io_manager import load_data, dump_data, TEAMS_PATH, MATCHES_PATH
 
 
 def input_home_and_away_teams_id(teams):
@@ -29,7 +30,14 @@ def create_match(home_id, away_id, home_goals, away_goals):
         "away_goals": away_goals
     }
 
-def add_match_result(teams, matches):
+def add_match_result():
+    teams = load_data(TEAMS_PATH)
+    matches = load_data(MATCHES_PATH)
+    if not teams:
+        teams = []
+    if not matches:
+        matches = []
+    
     print_title("ADD MATCH RESULT")
     while True:
         home_team_id, away_team_id = input_home_and_away_teams_id(teams)
@@ -44,5 +52,7 @@ def add_match_result(teams, matches):
     new_match = create_match(home_team_id, away_team_id, home_team_goals, away_team_goals)
     matches.append(new_match)
     update_teams(teams, new_match)
+    dump_data(TEAMS_PATH, teams)
+    dump_data(MATCHES_PATH, matches)
     logging.info("New game results have been successfully recorded")
 

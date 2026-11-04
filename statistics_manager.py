@@ -1,6 +1,7 @@
 from prettytable import PrettyTable
 from teams_manager import input_exists_team_id, get_team_by_id
-from printer import print_title, print_no_matches_yet
+from printer import print_title, print_no_matches_yet, print_no_teams_yet
+from io_manager import load_data, TEAMS_PATH, MATCHES_PATH
 
 t = PrettyTable(['Name', 'Games', 'Wins', 'Draws', 'Losses', 'Goals For', 'Goals Against', 'Gap', 'Points'])
 
@@ -10,7 +11,9 @@ def sort_teams(teams):
                 reverse=True)
 
 
-def show_standing(teams, matches):
+def show_standing():
+    teams = load_data(TEAMS_PATH)
+    matches = load_data(MATCHES_PATH)
     if not matches:
         print_no_matches_yet()
         return
@@ -26,7 +29,9 @@ def show_standing(teams, matches):
 def get_leading_team(teams):
     return sort_teams(teams)[0]
 
-def show_leading_team(teams, matches):
+def show_leading_team():
+    teams = load_data(TEAMS_PATH)
+    matches = load_data(MATCHES_PATH)
     if not matches:
         print_no_matches_yet()
         return
@@ -34,7 +39,11 @@ def show_leading_team(teams, matches):
     print_title("SHOW LEADING TEAM")
     print(f"the best team is: {get_leading_team(teams)["name"]}")
 
-def show_best_attacking_team(teams):
+def show_best_attacking_team():
+    teams = load_data(TEAMS_PATH)
+    if not teams:
+        print_no_teams_yet()
+        return
     max_goals_for_team = max(teams, key=lambda t: t["goals_for"])
     max_goals_for_value = max_goals_for_team["goals_for"]
     best_teams = filter(lambda t: t["goals_for"] == max_goals_for_value, teams)
@@ -43,7 +52,11 @@ def show_best_attacking_team(teams):
     for b in best_teams:
         print(f"best teams goals for: {b["name"]}, with {max_goals_for_value} goals for")
 
-def show_team_success_rate(teams):
+def show_team_success_rate():
+    teams = load_data(TEAMS_PATH)
+    if not teams:
+        print_no_teams_yet()
+        return
     team_id = input_exists_team_id("Enter team id: ",teams)
     team = get_team_by_id(team_id, teams)
     if team["played"] == 0:
@@ -54,7 +67,11 @@ def show_team_success_rate(teams):
     print_title("SHOW TEAM SUCCESS RATE")
     print("team success rate:", rate)
 
-def show_teams_without_wins(teams):
+def show_teams_without_wins():
+    teams = load_data(TEAMS_PATH)
+    if not teams:
+        print_no_teams_yet()
+        return
     teams_without_wins = list(filter(lambda t: (t["played"] > 0 and t["wins"] == 0), teams))
     if not teams_without_wins:
         print("There are no teams without wins!")
@@ -65,9 +82,14 @@ def show_teams_without_wins(teams):
         print(f"{t["name"]}: played {t["played"]} matches, earned {t["points"]} points")
 
 
-def show_tournament_summary(teams, matches):
+def show_tournament_summary():
+    teams = load_data(TEAMS_PATH)
+    matches = load_data(MATCHES_PATH)
     if not matches:
         print_no_matches_yet()
+        return
+    if not teams:
+        print_no_teams_yet()
         return
 
     num_of_teams = len(teams)
