@@ -54,63 +54,27 @@ def show_all_teams(teams):
 
 
 def update_teams(teams, match):
-    for t in teams:
-        if t["id"] == match["home_team_id"]:
-            t["played"] += 1
-            if match["home_goals"] > match["away_goals"]:
-                t["wins"] += 1
-                t["points"] += 3
-            elif match["home_goals"] == match["away_goals"]:
-                t["draws"] += 1
-                t["points"] += 1
-            else:
-                t["losses"] += 1
-            t["goals_for"] += match["home_goals"]
-            t["goals_against"] += match["away_goals"]
-            break
+    home_team = list(filter(lambda t: t["id"] == match["home_team_id"], teams))[0]
+    away_team = list(filter(lambda t: t["id"] == match["away_team_id"], teams))[0]
 
-    for t in teams:
-        if t["id"] == match["away_team_id"]:
-            t["played"] += 1
-            if match["away_goals"] > match["home_goals"]:
-                t["wins"] += 1
-                t["points"] += 3
-            elif match["away_goals"] == match["home_goals"]:
-                t["draws"] += 1
-                t["points"] += 1
-            else:
-                t["losses"] += 1
-            t["goals_for"] += match["away_goals"]
-            t["goals_against"] += match["home_goals"]
-            break
+    home_team["played"] += 1
+    away_team["played"] += 1
 
+    home_team["goals_for"] += match["home_goals"]
+    home_team["goals_against"] += match["away_goals"]
+    away_team["goals_for"] += match["away_goals"]
+    away_team["goals_against"] += match["home_goals"]
 
-
-    # home_team = filter(lambda t: t["id"] == match["home_team_id"], teams)
-    # away_team = filter(lambda t: t["id"] == match["away_team_id"], teams)
-
-    # for t in teams:
-    #     if t["id"] == match["home_team_id"]:
-    #         home_team = t
-    #         break
-    
-    # for t in teams:
-    #     if t["id"] == match["away_team_id"]:
-    #         away_team = t
-    #         break
-
-    # home_team["played"] += 1
-    # away_team["played"] += 1
-
-        
-    # if match["home_goals"] > match["away_goals"]:
-    #     t["wins"] += 1
-    #     t["points"] += 3
-    # elif match["home_goals"] == match["away_goals"]:
-    #     t["draws"] += 1
-    #     t["points"] += 1
-    # else:
-    #     t["losses"] += 1
-    # t["goals_for"] += match["home_goals"]
-    # t["goals_against"] += match["away_goals"]
-    
+    if match["home_goals"] > match["away_goals"]:
+        home_team["wins"] += 1
+        home_team["points"] += 3
+        away_team["losses"] += 1
+    elif match["home_goals"] == match["away_goals"]:
+        home_team["draws"] += 1
+        away_team["draws"] += 1
+        home_team["points"] += 1
+        away_team["points"] += 1
+    else:
+        home_team["losses"] += 1
+        away_team["wins"] += 1
+        away_team["points"] += 3
