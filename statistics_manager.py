@@ -102,3 +102,22 @@ def show_tournament_summary():
     print(average_goals_per_match, "average goals per match")
     print(num_of_draws, "matches ended in a draw")
     print(leading_tame_name, "is the best team")
+
+
+def check_championship_potential():
+    teams = load_data(TEAMS_PATH)
+    if not teams:
+        print_no_teams_yet()
+        return
+
+    team_id = input_exists_team_id("Enter team id: ",teams)
+    team = get_team_by_id(team_id, teams)
+
+    remain_games = len(teams) - 1 - team["played"]
+    maximum_points = team["points"] + remain_games * 3
+    
+    print_title("Check Championship Potential")
+    if maximum_points > max(teams, key=lambda t: t["points"])["points"]:
+        print(f"this team can be the championship in potential. it can achive {maximum_points} points")
+    else:
+        print(f"this team can not be the championship. it can achive only {maximum_points} points")
