@@ -28,3 +28,15 @@ def show_leading_team(teams, matches):
     
     print(f"the best team is: {sort_teams(teams)[0]["name"]}")
 
+
+def show_best_attacking_team(teams):
+    # played = filter(lambda t: t["played"] > 0, teams)
+    max_goals_for_team = max(teams, key=lambda t: t["goals_for"])
+    print(max_goals_for_team)
+
+    max_goals_for_value = max_goals_for_team["goals_for"]
+    print(max_goals_for_value)
+    best_teams = filter(lambda t: t["goals_for"] == max_goals_for_value, teams)
+    for b in best_teams:
+        print(f"best teams goals for: {b["name"]}, with {max_goals_for_value} goals for")
+    

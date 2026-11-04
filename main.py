@@ -1,7 +1,7 @@
 from menu import get_action
 from teams_manager import add_team, show_all_teams
 from matches_manager import add_match_result
-from standing import show_standing, show_leading_team
+from standing import show_standing, show_leading_team, show_best_attacking_team
 
 def main():
     teams = []
@@ -25,6 +25,9 @@ def main():
 
         if action == 5:
             show_leading_team(teams, matches)
+
+        if action == 6:
+            show_best_attacking_team(teams)
 
 if __name__ == "__main__":
     main()
