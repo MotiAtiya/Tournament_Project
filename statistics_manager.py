@@ -3,13 +3,8 @@ from teams_manager import input_exists_team_id, get_team_by_id
 from printer import print_title, print_no_matches_yet, print_no_teams_yet
 from io_manager import load_data, TEAMS_PATH, MATCHES_PATH
 
-t = PrettyTable(['Name', 'Games', 'Wins', 'Draws', 'Losses', 'Goals For', 'Goals Against', 'Gap', 'Points'])
-
 def sort_teams(teams):
-    return sorted(teams, 
-                key=lambda t: (t["points"], t["goals_for"] - t["goals_against"], t["goals_for"], t["name"]),
-                reverse=True)
-
+    return sorted(teams, key=lambda t: (-t["points"], -(t["goals_for"] - t["goals_against"]), -t["goals_for"], t["name"]))
 
 def show_standing():
     teams = load_data(TEAMS_PATH)
@@ -21,10 +16,11 @@ def show_standing():
     print_title("SHOW STANDING")
     standing = sort_teams(teams)
 
+    table = PrettyTable(['Name', 'Games', 'Wins', 'Draws', 'Losses', 'Goals For', 'Goals Against', 'Gap', 'Points'])
     for s in standing:
-        t.add_row([s["name"], s["played"], s["wins"], s["draws"], s["losses"], s["goals_for"], s["goals_against"], s["goals_for"] - s["goals_against"], s["points"]])
+        table.add_row([s["name"], s["played"], s["wins"], s["draws"], s["losses"], s["goals_for"], s["goals_against"], s["goals_for"] - s["goals_against"], s["points"]])
 
-    print(t)
+    print(table)
 
 def get_leading_team(teams):
     return sort_teams(teams)[0]

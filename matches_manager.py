@@ -41,10 +41,11 @@ def add_match_result():
     print_title("ADD MATCH RESULT")
     while True:
         home_team_id, away_team_id = input_home_and_away_teams_id(teams)
-        if have_played_before(matches, home_team_id, away_team_id):
-            print("These teams already played before. Please enter new teams")
-            logging.info(f"Wrong input: team id {away_team_id} and team id {home_team_id} have played before")
-        break
+        if not have_played_before(matches, home_team_id, away_team_id):
+            break
+        print("These teams already played before. Please enter new teams")
+        logging.info(f"Wrong input: team id {away_team_id} and team id {home_team_id} have played before")
+        
 
     home_team_goals = input_not_negative_integer(f"Enter the numbers of goals for home team: ")
     away_team_goals = input_not_negative_integer(f"Enter the numbers of goals for away team: ")
