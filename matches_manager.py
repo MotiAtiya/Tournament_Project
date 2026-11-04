@@ -1,21 +1,11 @@
 from inputs import input_positive_integer
 import validation as v
-from teams_manager import update_teams
-
-def is_exists(teams, id):
-    return id in map(lambda t: t["id"], teams)
-
-def input_exists_team_id(team_kind, teams):
-    while True:
-        team_id = input_positive_integer(f"Enter {team_kind} team id: ")
-        if is_exists(teams, team_id):
-            return team_id
-        print("id is not exists. Please try again")
+from teams_manager import update_teams, input_exists_team_id
 
 def input_home_and_away_teams_id(teams, matches):
     while True:
-        home_team_id = input_exists_team_id("home", teams)
-        away_team_id = input_exists_team_id("away", teams)
+        home_team_id = input_exists_team_id("Enter home team id: ", teams)
+        away_team_id = input_exists_team_id("Enter away team id: ", teams)
         if away_team_id == home_team_id:
             print("Please enter different id for away team!")
             continue

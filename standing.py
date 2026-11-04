@@ -1,5 +1,5 @@
 from prettytable import PrettyTable
-
+from teams_manager import input_exists_team_id, get_team_by_id
 t = PrettyTable(['Name', 'Games', 'Wins', 'Draws', 'Losses', 'Goals For', 'Goals Against', 'Gap', 'Points'])
 
 def sort_teams(teams):
@@ -36,9 +36,10 @@ def show_best_attacking_team(teams):
     for b in best_teams:
         print(f"best teams goals for: {b["name"]}, with {max_goals_for_value} goals for")
 
-# def show_team_success_rate(teams):
-#     team_id = int(input("Enter Team ID: "))
-#     team = filter(lambda t: t["id"] == team_id, teams)
-#     print(team)
-#     print(f"Team Success Rate: {team["points"] / (team["played"] * 3) * 100}")
-
+def show_team_success_rate(teams):
+    team_id = input_exists_team_id("Enter team id: ",teams)
+    team = get_team_by_id(team_id, teams)
+    if team["played"] == 0:
+        print("no games")
+    else:
+        print(f"Team Success Rate: {team["points"] / (team["played"] * 3) * 100}")
