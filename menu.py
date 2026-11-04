@@ -1,3 +1,6 @@
+import logging
+from inputs import input_not_negative_integer
+
 def show_menu():
     print("""
     ========== TOURNAMENT MANAGER ==========
@@ -10,19 +13,16 @@ def show_menu():
     7. Show team success rate
     8. Show teams without wins
     9. Show tournament summary
-    10. Check championship potential
     0. Exit
     """)
 
 def get_action():
     show_menu()
     while True:
-        try:
-            action =  int(input("Choose an option: "))
-            if action < 0 or action > 10:
-                print("only numbers between 0 - 10")
-                continue
+        action = input_not_negative_integer("Choose an option (0-9):")
+        if  0 <= action <= 9:
             return action
-        except ValueError:
-            print("only numbers")
+        
+        print("Enter only numbers between 0 - 9")
+        logging.info("Wrong input: The user selected an action that does not exist in the menu")
 
