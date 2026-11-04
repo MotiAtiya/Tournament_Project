@@ -1,18 +1,18 @@
 from printer import print_title
-import validation as v
 from teams_manager import update_teams, input_exists_team_id
-from inputs import input_positive_integer, input_not_negative_integer
+from inputs import input_not_negative_integer
+import logging
 
-def input_home_and_away_teams_id(teams, matches):
+
+def input_home_and_away_teams_id(teams):
     while True:
         home_team_id = input_exists_team_id("Enter home team id: ", teams)
         away_team_id = input_exists_team_id("Enter away team id: ", teams)
-        if away_team_id == home_team_id:
-            print("Please enter different id for away team!")
-            continue
+        if away_team_id != home_team_id:
+            return home_team_id, away_team_id
+        print("Please enter different id for away team!")
+        logging.info(f"Wrong input: away team id {away_team_id} must be different from home team id ({home_team_id})")
 
-        return home_team_id, away_team_id
-    
 
 def have_played_before(matches, home_team_id, away_team_id):
     for m in matches:
@@ -32,9 +32,10 @@ def create_match(home_id, away_id, home_goals, away_goals):
 def add_match_result(teams, matches):
     print_title("ADD MATCH RESULT")
     while True:
-        home_team_id, away_team_id = input_home_and_away_teams_id(teams, matches)
+        home_team_id, away_team_id = input_home_and_away_teams_id(teams)
         if have_played_before(matches, home_team_id, away_team_id):
             print("These teams already played before. Please enter new teams")
+            logging.info(f"Wrong input: team id {away_team_id} and team id {home_team_id} have played before")
         break
 
     home_team_goals = input_not_negative_integer(f"Enter the numbers of goals for home team: ")
@@ -43,4 +44,5 @@ def add_match_result(teams, matches):
     new_match = create_match(home_team_id, away_team_id, home_team_goals, away_team_goals)
     matches.append(new_match)
     update_teams(teams, new_match)
+    logging.info("New game results have been successfully recorded")
 

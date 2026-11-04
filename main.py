@@ -1,22 +1,20 @@
 from menu import get_action
 from teams_manager import add_team, show_all_teams
 from matches_manager import add_match_result
-from standing import show_standing, show_leading_team, show_best_attacking_team, show_team_success_rate, show_teams_without_wins, show_tournament_summary
+from statistics_manager import show_standing, show_leading_team, show_best_attacking_team, show_team_success_rate, show_teams_without_wins, show_tournament_summary
+import logging
+
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s | %(levelname)s | %(message)s"
+)
+
 
 def main():
+    logging.info("System is up")
+    
     teams = []
     matches = []
-
-    # ACTIONS = {
-    #     1: add_team(teams),
-    #     2: show_all_teams(teams),
-    #     3: add_match_result(teams, matches),
-    #     4: show_standing(teams, matches),
-    #     5: show_leading_team(teams, matches),
-    #     6: show_best_attacking_team(teams),
-    #     7: show_team_success_rate(teams),
-    #     8: show_teams_without_wins(teams)
-    # }
 
     while True:
         action = get_action()
@@ -42,8 +40,6 @@ def main():
                 show_teams_without_wins(teams)
             case 9:
                 show_tournament_summary(teams, matches)
-
-        # ACTIONS[action]
 
 if __name__ == "__main__":
     main()
