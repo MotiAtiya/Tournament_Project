@@ -1,23 +1,19 @@
 import validation as v
+from inputs import input_positive_integer, input_not_empty_string
 
-def input_id():
+def input_new_id(teams):
     while True:
-        try:
-            id = int(input("Enter team id: ").strip())
-            if v.is_positive_integer_number(id):
-                return id
-            print("Please enter only a positive integer number!") 
-        except ValueError:
-            print("Please enter only a number!")
+        id = input_positive_integer("Enter new team id: ")
+        if id not in map(lambda t: t["id"], teams):
+            return id
+        print("id already exists. Please enter new id!")
 
-
-def input_name():
+def input_new_name(teams):
     while True:
-        name = input("Enter team name: ").strip().lower()
-        if v.is_non_empty_string(name):
+        name = input_not_empty_string("Enter new team name: ").lower()
+        if name not in map(lambda t: t["name"], teams):
             return name
-        print("Please enter only a non-empay name!") 
-
+        print("name already exists. Please enter new name!")
 
 def initialize_team(id, name):
     return {
@@ -33,18 +29,8 @@ def initialize_team(id, name):
     }
 
 def add_team(teams):
-    while True:
-        id = input_id()
-        if id not in map(lambda t: t["id"], teams):
-            break
-        print("id already exists. Please enter new id!")
-
-    while True:
-        name = input_name()
-        if name not in map(lambda t: t["name"], teams):
-            break
-        print("name already exists. Please enter new name!")
-
+    id = input_new_id(teams)
+    name = input_new_name(teams)
     teams.append(initialize_team(id, name))
 
 

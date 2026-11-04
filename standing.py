@@ -30,13 +30,15 @@ def show_leading_team(teams, matches):
 
 
 def show_best_attacking_team(teams):
-    # played = filter(lambda t: t["played"] > 0, teams)
     max_goals_for_team = max(teams, key=lambda t: t["goals_for"])
-    print(max_goals_for_team)
-
     max_goals_for_value = max_goals_for_team["goals_for"]
-    print(max_goals_for_value)
     best_teams = filter(lambda t: t["goals_for"] == max_goals_for_value, teams)
     for b in best_teams:
         print(f"best teams goals for: {b["name"]}, with {max_goals_for_value} goals for")
-    
+
+# def show_team_success_rate(teams):
+#     team_id = int(input("Enter Team ID: "))
+#     team = filter(lambda t: t["id"] == team_id, teams)
+#     print(team)
+#     print(f"Team Success Rate: {team["points"] / (team["played"] * 3) * 100}")
+
